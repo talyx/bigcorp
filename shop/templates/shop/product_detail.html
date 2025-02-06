@@ -11,7 +11,7 @@
                     <!-- Product image -->
                 </div>
                 <div class="col-md-7 col-lg-7 ps-md-3 ps-lg-5">
-                    <h1 class="mb-0 h4">{{ product.name }}</h1>
+                    <h1 class="mb-0 h4">{{ product.title }}</h1>
                     <strong>{{ product.brand }}</strong>
                     <hr>
                     <br>
@@ -40,7 +40,7 @@
                                 <div class="col-6 text-end">
                                     <button type="button"
                                             id="add-button"
-                                            value=""
+                                            value="{{product.id}}"
                                             class="btn btn-secondary btn-sm">Add to cart</button>
                                 </div>
                             </div>
@@ -51,4 +51,28 @@
         </main>
         <br>
     </div>
+
+    <script>
+        $(document).on('click', '#add-button', function(e) {
+            e.preventDefault();
+            $.ajax({
+                type: 'POST',
+                url: '{% url "cart:add_to_cart" %}',
+                data: {
+                    product_id: $('#add-button').val(),
+                    product_qty: $('#select option:selected').text(),
+                    csrfmiddlewaretoken: '{{ csrf_token  }}',
+                    action: 'post'
+                },
+                success: function(response) {
+                    document.getElementById('lblCartCount').textContent = response.product_qty
+                },
+                error: function(error) {
+                    console.log(error)
+                }
+            })
+        })
+
+    </script>
+
 {% endblock %}
