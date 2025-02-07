@@ -40,5 +40,20 @@ class Cart():
             yield item
             
             
+    def delete(self, product):
+        product_id = str(product)
+        if product_id in self.cart:
+            del self.cart[product_id]
+            self.session.modified = True
+            
+    
+    def update(self, product, product_qty):
+        product_id = str(product)
+        if product_id in self.cart:
+            self.cart[product_id]['qty'] = product_qty
+            self.session.modified = True
+    
     def get_total_price(self):
         return sum(Decimal(item['price']) * item['qty'] for item in self.cart.values())
+    
+    
