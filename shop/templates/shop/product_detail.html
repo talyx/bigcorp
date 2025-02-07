@@ -57,7 +57,7 @@
             e.preventDefault();
             $.ajax({
                 type: 'POST',
-                url: '{% url "cart:add_to_cart" %}',
+                url: '{% url "cart:add-to-cart" %}',
                 data: {
                     product_id: $('#add-button').val(),
                     product_qty: $('#select option:selected').text(),
