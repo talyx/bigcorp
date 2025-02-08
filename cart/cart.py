@@ -18,9 +18,7 @@ class Cart():
             self.cart[product_id] = {'price': str(product.price), 'qty': product_qty}
         
         self.cart[product_id]['qty'] = product_qty
-        
-        print(self.cart)
-        
+                
         self.session.modified = True
         
     def __len__(self):
