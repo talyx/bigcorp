@@ -61,21 +61,21 @@ def complete_order(request):
 
         cart = Cart(request)
         total_price = cart.get_total_price()
-
+        shipping_address, _ = ShippingAddress.objects.get_or_create(
+            user=request.user,
+            defaults={
+                "full_name": name,
+                "email": email,
+                "street_address": street_address,
+                "apartment_address": apartment_address,
+                "city": city,
+                "country": contry,
+                "zip_code": zipcode,
+            },
+        )
         match payment_type:
             case "stripe-payment":
-                shipping_address, _ = ShippingAddress.objects.get_or_create(
-                    user=request.user,
-                    defaults={
-                        "full_name": name,
-                        "email": email,
-                        "street_address": street_address,
-                        "apartment_address": apartment_address,
-                        "city": city,
-                        "country": contry,
-                        "zip_code": zipcode,
-                    },
-                )
+
                 session_data = {
                     "mode": "payment",
                     "success_url": request.build_absolute_uri(
@@ -111,6 +111,7 @@ def complete_order(request):
                                 "quantity": item["qty"],
                             }
                         )
+                    session_data['client_reference_id'] = order.id
                     session = stripe.checkout.Session.create(**session_data)
                     return redirect(session.url, code=303)
 
@@ -125,13 +126,29 @@ def complete_order(request):
                             price=item["price"],
                             quantity=item["qty"],
                         )
+                        session_data["line_items"].append(
+                            {
+                                "price_data": {
+                                    "unit_amount": int(item["price"] * Decimal(100)),
+                                    "currency": "usd",
+                                    "product_data": {"name": item["product"]},
+                                },
+                                "quantity": item["qty"],
+                            }
+                        )
+                    session_data['client_reference_id'] = order.id
+                    session = stripe.checkout.Session.create(**session_data)
+                    return redirect(session.url, code=303)
             case "yookassa-payment":
                 idempotence_key = uuid.uuid4()
                 currency = "RUB"
                 description = "Товары в корзине"
                 payment = Payment.create(
                     {
-                        "amount": {"value": str(total_price * 93), "currency": currency},
+                        "amount": {
+                            "value": str(total_price * 93),
+                            "currency": currency,
+                        },
                         "confirmation": {
                             "type": "redirect",
                             "return_url": request.build_absolute_uri(
@@ -141,20 +158,10 @@ def complete_order(request):
                         "capture": True,
                         "test": True,
                         "description": description,
-                    },idempotence_key
-                )
-                shipping_address, _ = ShippingAddress.objects.get_or_create(
-                    user=request.user,
-                    defaults={
-                        "full_name": name,
-                        "email": email,
-                        "street_address": street_address,
-                        "apartment_address": apartment_address,
-                        "city": city,
-                        "country": contry,
-                        "zip_code": zipcode,
                     },
+                    idempotence_key,
                 )
+
                 confirmation_url = payment.confirmation.confirmation_url
                 if request.user.is_authenticated:
                     order = Order.objects.create(
@@ -182,7 +189,6 @@ def complete_order(request):
                             price=item["price"],
                             quantity=item["qty"],
                         )
-                
 
 
 def payment_success(request):
