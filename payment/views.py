@@ -33,7 +33,7 @@ def shipping(request):
             shipping_address.user = request.user
             shipping_address.save()
             return redirect("account:dashboard")
-    return render(request, "payment/shipping.html", {"form": form})
+    return render(request, "payment/shipping/shipping.html", {"form": form})
 
 
 def checkout(request):

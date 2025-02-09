@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "crispy_bootstrap5",
     'django_email_verification',
     'django_google_fonts',
+    'sorl.thumbnail',
     # apps
     'shop',
     'cart',
@@ -135,10 +136,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / 'static'
 STATICFILES_DIRS = [
+    BASE_DIR / 'static',
     BASE_DIR / 'bigcorp' / 'static',
 ]
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
 MEDIA_URL = 'media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
