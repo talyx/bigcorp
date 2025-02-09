@@ -20,9 +20,15 @@
                         <div class="col border-bottom">
                             <div class="row p-3">
                                 <div class="col-6">Price</div>
-                                <div class="col-6 text-end">
-                                    <span class="h4 fw-bold">$ {{ product.price }}</span>
-                                </div>
+                                {% if product.discount %}
+                                    <div class="col-6 text-end">
+                                        <span class="text-decoration-line-through fw-bold text-danger">$ {{ product.price }} <span class="badge rounded-pill bg-info">discount</span></span> <span class="h4 fw-bold">$ {{ product.get_discounted_price }}</span>
+                                    </div>
+                                {% else %}
+                                    <div class="col-6 text-end">
+                                        <span class="h4 fw-bold">$ {{ product.price }}</span>
+                                    </div>
+                                {% endif %}
                             </div>
                         </div>
                         <div class="col">
@@ -40,7 +46,7 @@
                                 <div class="col-6 text-end">
                                     <button type="button"
                                             id="add-button"
-                                            value="{{product.id}}"
+                                            value="{{ product.id }}"
                                             class="btn btn-secondary btn-sm">Add to cart</button>
                                 </div>
                             </div>
@@ -50,8 +56,8 @@
             </div>
         </main>
         <br>
+        {% include 'recommend/recommendation.html' %}
     </div>
-
     <script>
         $(document).on('click', '#add-button', function(e) {
             e.preventDefault();
@@ -78,5 +84,4 @@
         })
 
     </script>
-
 {% endblock %}
