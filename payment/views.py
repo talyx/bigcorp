@@ -11,6 +11,12 @@ from yookassa import Configuration, Payment
 import stripe
 import uuid
 from django.conf import settings
+from django.contrib.admin.views.decorators import staff_member_required
+import weasyprint
+from django.http import Http404, HttpResponse
+
+from django.template.loader import render_to_string
+from django.templatetags.static import static
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 stripe.api_version = settings.STRIPE_API_VERSION
@@ -199,3 +205,21 @@ def payment_success(request):
 
 def payment_fail(request):
     return render(request, "payment/payment-fail.html")
+
+@staff_member_required
+def admin_order_pdf(request, order_id):
+    try:
+        order = Order.objects.select_related('user', 'shipping_address').get(id=order_id)
+    except Order.DoesNotExist:
+        raise Http404('Заказ не найден')
+    html = render_to_string('payment/order/pdf/pdf_invoice.html',
+                            {'order': order})
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = f'filename=order_{order.id}.pdf'
+    # css_path = static('payment/css/pdf.css').lstrip('/')
+    # css_path = 'static/payment/css/pdf.css'
+    css_path = 'staticfiles/payment/css/pdf.css'
+    stylesheets = [weasyprint.CSS(css_path)]
+    weasyprint.HTML(string=html).write_pdf(response, stylesheets=stylesheets)
+    return response
+    
