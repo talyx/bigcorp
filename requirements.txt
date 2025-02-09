@@ -1,4 +1,6 @@
 asgiref==3.8.1
+certifi==2025.1.31
+charset-normalizer==3.4.1
 click==8.1.8
 colorama==0.4.6
 crispy-bootstrap5==2024.10
@@ -11,6 +13,7 @@ django-environ==0.12.0
 django-mathfilters==1.0.0
 djlint==1.36.4
 EditorConfig==0.17.0
+idna==3.10
 jsbeautifier==1.15.1
 json5==0.10.0
 packaging==24.2
@@ -19,7 +22,11 @@ pillow==11.1.0
 PyJWT==2.10.1
 PyYAML==6.0.2
 regex==2024.11.6
+requests==2.32.3
 six==1.17.0
 sqlparse==0.5.3
+stripe==11.5.0
 tqdm==4.67.1
+typing_extensions==4.12.2
+urllib3==2.3.0
 validators==0.34.0
