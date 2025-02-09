@@ -194,3 +194,17 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = 'bigcorp-django@gmil.com'
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')  # os.environ['password_key'] suggested
 EMAIL_USE_TLS = True
+
+#stripe
+STRIPE_PUBLIC_KEY = env('STRIPE_PUBLIC_KEY')
+STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY')
+STRIPE_API_VERSION = env(var='STRIPE_API_VERSION')
+
+#youkassa
+# YOUKASSA_PUBLIC_KEY = env('YOUKASSA_PUBLIC_KEY')
+YOOKASSA_SECRET_KEY = env('YOOKASSA_SECRET_KEY')
+YOOKASSA_SHOP_ID = env('YOOKASSA_SHOP_ID')
+
+#google fonts
+GOOGLE_FONTS = ['Montserrat:wght@300;400', 'Roboto']
+GOOGLE_FONTS_DIR = BASE_DIR / 'static'
