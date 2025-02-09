@@ -26,3 +26,12 @@ def category_list(request, slug):
     context = {'category': category, 'products': products}
     return render(request, 'shop/category_list.html', context)
 
+
+def search_products(request):
+    query = request.GET.get('q')
+    products = ProductProxy.objects.filter(title__icontains=query).distinct()
+    context = {'products': products}
+    if not query or not products:
+        return redirect('shop:products')
+    return render(request, 'shop/products.html', context)
+
