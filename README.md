@@ -1,7 +1,7 @@
 # 🛒 BigCorp E-commerce Platform
 
 ## 📌 Overview
-BigCorp is a modern e-commerce platform with integrated payment solutions, a REST API, and a background task system using Celery and Redis.
+BigCorp is a modern e-commerce platform built with Django, featuring integrated payment solutions, a REST API, and a background task system using Celery and Redis.
 
 ## 🚀 Features
 - 🔐 **User Authentication** (registration, login, password reset)
@@ -12,7 +12,8 @@ BigCorp is a modern e-commerce platform with integrated payment solutions, a RES
 - ⚡ **Background Tasks** (Celery + Redis for async operations)
 - 🎭 **HTMX for Dynamic UI Updates**
 - 🤖 **GitHub Actions CI/CD with Telegram Notifications**
-- 🐳 **Dockerized Environment** (PostgreSQL, Redis, Celery, Web App)
+- 🐳 **Dockerized Environment** (PostgreSQL, Redis, Celery, Web App, Nginx)
+- 🌐 **All Requests Pass Through Nginx** for load balancing and security
 
 ## 🛠 Installation
 ### 📌 Prerequisites
@@ -38,8 +39,9 @@ docker-compose up --build -d
 ```
 
 ### 💳 Start Stripe Webhook Listener
+
 ```sh
-stripe listen --forward-to localhost:8000/payment/webhook/
+stripe listen --forward-to localhost/payment/webhook-stripe/
 ```
 
 ### 🔑 Create Superuser
@@ -56,23 +58,18 @@ docker exec -it bigcorp-app python manage.py createsuperuser
    ```
 
 ### 🌐 Access the Application
-- Open `http://localhost:8000/` in a browser.
+- Open `http://localhost/` in a browser.
 
 ## 📖 API Documentation
 API docs are available at:
-- 📜 Swagger UI: `http://localhost:8000/api/v1/swagger/`
-- 📕 Redoc: `http://localhost:8000/api/v1/redoc/`
-
-## 🧪 Running Tests
-```sh
-docker-compose exec bigcorp-app test
-```
+- 📜 Swagger UI: `/api/v1/swagger/`
+- 📕 Redoc: `/api/v1/redoc/`
 
 ## 🚀 Deployment
 ### 🤖 GitHub Actions & CI/CD
 - **Automated deployment** runs on every push to `main`.
 - **Telegram notifications** are sent upon successful deployment.
 
-ℹ️ Educational Project
+## ℹ️ Educational Project
+This project is created for educational purposes only.
 
-This project is written for educational purposes only.
