@@ -40,6 +40,7 @@ EditorConfig==0.17.0
 Faker==35.2.0
 flower==2.0.1
 fonttools==4.56.0
+gunicorn==23.0.0
 humanize==4.11.0
 idna==3.10
 inflection==0.5.1
