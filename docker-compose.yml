@@ -19,7 +19,7 @@ services:
     container_name: bigcorp-app
     env_file: .env
     volumes:
-      - static_data:/app/staticfile
+      - static_data:/app/staticfiles
       - media_data:/app/media
     depends_on:
       - db
