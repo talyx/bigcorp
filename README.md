@@ -71,5 +71,5 @@ API docs are available at:
 - **Telegram notifications** are sent upon successful deployment.
 
 ## ℹ️ Educational Project
-This project is created for educational purposes only.
+This project is written for educational purposes only.
 
