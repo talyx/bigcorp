@@ -21,7 +21,7 @@ BigCorp is a modern e-commerce platform with integrated payment solutions, a RES
 
 ### 📥 Clone the repository
 ```sh
-git https://github.com/talyx/bigcorp
+git clone https://github.com/talyx/bigcorp
 cd bigcorp
 ```
 
@@ -44,7 +44,7 @@ stripe listen --forward-to localhost:8000/payment/webhook/
 
 ### 🔑 Create Superuser
 ```sh
-docker-compose exec bigcorp-app python manage.py createsuperuser
+docker exec -it bigcorp-app python manage.py createsuperuser
 ```
 *Superuser is required to create categories in the admin panel before running the faker.*
 
